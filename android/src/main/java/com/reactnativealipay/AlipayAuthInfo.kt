@@ -26,7 +26,7 @@ data class AlipayAuthInfo(
   var serverSignedString: String?
 ) {
   fun isValid(): Boolean {
-    if (((signType == AuthSignType.SERVER_RSA && serverSignedString?.isEmpty() == true)) ||
+    if ((signType == AuthSignType.SERVER_RSA && serverSignedString?.isEmpty() == true) &&
       (pid.isEmpty() ||
         appId.isEmpty() ||
         targetId.isEmpty() ||

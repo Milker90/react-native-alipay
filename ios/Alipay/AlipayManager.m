@@ -6,7 +6,6 @@
 //
 
 #import "AlipayManager.h"
-#import "ReactNativeConfig.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "AlipayAuthInfo.h"
 #import "APRSASigner.h"
@@ -50,7 +49,7 @@
     NSString *rsaPrivateKey = [params objectForKey:@"rsaPrivateKey"];
     NSString *serverSignedString = [params objectForKey:@"serverSignedString"];
     
-    if (([signType isEqualToString:@"SERVER_RSA"] && ![Utils isValidString:serverSignedString]) ||
+    if (([signType isEqualToString:@"SERVER_RSA"] && ![Utils isValidString:serverSignedString] && ![Utils isValidString:appScheme]) &&
         (![Utils isValidString:pid] ||
          ![Utils isValidString:appID] ||
          ![Utils isValidString:targetId] ||
