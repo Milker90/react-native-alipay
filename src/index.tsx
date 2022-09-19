@@ -1,9 +1,5 @@
 import { NativeModules } from 'react-native';
 
-export type AlipayAuth2Result = {
-  authCode: string;
-};
-
 export enum AlipaySignType {
   RSA = 'RSA',
   RSA2 = 'RSA2',
@@ -21,8 +17,19 @@ export type AlipayAuthInfo = {
   serverSignedString?: string | null;
 };
 
+// 返回结果
+// {
+//   "alipay_open_id": "xxx",
+//   "app_id": "xxx",
+//   "auth_code": "xxx",
+//   "result_code": "200",
+//   "scope": "kuaijie",
+//   "success": "true",
+//   "target_id": "xxx",
+//   "user_id": "xxx"
+// }
 type AlipayType = {
-  auth2(params: AlipayAuthInfo): Promise<AlipayAuth2Result>;
+  auth2(params: AlipayAuthInfo): Promise<any>;
 };
 
 const { Alipay } = NativeModules;

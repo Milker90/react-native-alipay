@@ -40,7 +40,6 @@
     // 应用注册scheme, 在Info.plist定义URL types
     NSString *appScheme = [params objectForKey:@"appScheme"];
     
-
     // 如下私钥，rsa2PrivateKey 或者 rsaPrivateKey 只需要填入一个
     // 如果商户两个都设置了，优先使用 rsa2PrivateKey
     // rsa2PrivateKey 可以保证商户交易在更加安全的环境下进行，建议使用 rsa2PrivateKey
