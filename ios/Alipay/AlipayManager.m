@@ -16,6 +16,8 @@
 @property (nonatomic, copy) RCTPromiseResolveBlock authResolve;
 @property (nonatomic, copy) RCTPromiseRejectBlock authReject;
 
+@property (nonatomic, assign) UIBackgroundTaskIdentifier bgTaskToken;
+
 @end
 
 @implementation AlipayManager
@@ -27,6 +29,33 @@
       _instance = [[self alloc] init];
     });
     return _instance;
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+    }
+    return  self;
+}
+
+- (void)applicationDidEnterBackground {
+    [self finishBackgroundTask];
+    __weak typeof(self) weakSelf = self;
+    _bgTaskToken = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"react-native-alipay-background" expirationHandler:^{
+        [weakSelf finishBackgroundTask];
+    }];
+}
+
+- (void)applicationWillEnterForeground {
+    [self finishBackgroundTask];
+}
+
+- (void)finishBackgroundTask {
+    if (_bgTaskToken != UIBackgroundTaskInvalid) {
+        [[UIApplication sharedApplication] endBackgroundTask:_bgTaskToken];
+        _bgTaskToken = UIBackgroundTaskInvalid;
+    }
 }
 
 - (void)auth2:(NSDictionary *)params
@@ -175,6 +204,10 @@
     } else {
         return @{@"status": @"unknow", @"message": @"未知错误"};
     }
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
