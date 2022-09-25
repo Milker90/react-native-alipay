@@ -15,11 +15,15 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/Milker90/react-native-alipay.git", :tag => "#{s.version}" }
 
   
-  s.source_files = "ios/**/*.{h,m,mm,swift}"
-  s.header_mappings_dir = "ios"
+  s.source_files = "ios/Classes/**/*.{h,m,mm,swift}"
+  s.header_mappings_dir = "ios/Classes"
+  s.vendored_frameworks = "ios/Assets/Frameworks/AlipaySDK.framework"
+  s.resource = 'ios/Assets/Resources/AlipaySDK.bundle'
+  s.frameworks = 'SystemConfiguration','CoreTelephony','QuartzCore','CoreText','CoreGraphics','UIKit','Foundation','CFNetwork','CoreMotion'
+  s.libraries = "c++","z"
   
   s.dependency "React-Core"
-  s.dependency "AlipaySDK-iOS", "15.8.11"
+  s.dependency "AlicloudUTDID"
 
 #  s.pod_target_xcconfig = {
 #      'HEADER_SEARCH_PATHS' => '$SRCROOT'
